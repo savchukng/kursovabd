@@ -37,11 +37,11 @@ public class ClientOrderMealService {
         clientOrderMealRepository.deleteById(id);
     }
 
-    public Integer startCooking(Integer id) {
+    public Integer startCooking(Integer id, Integer employeeId) {
         ClientOrderMeal clientOrderMeal = clientOrderMealRepository.getOne(id);
         clientOrderMeal.setStatus(statusService.get(2));
         clientOrderMealRepository.save(clientOrderMeal);
-        mealCookingService.add(clientOrderMeal);
+        mealCookingService.add(clientOrderMeal, employeeId);
         return clientOrderMeal.getClientOrder().getId();
     }
 

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -44,8 +45,8 @@ public class ClientOrderController {
     }
 
     @PostMapping("/add")
-    public String addOrder(ClientOrder clientOrder) {
-        Integer id = clientOrderService.add(clientOrder);
+    public String addOrder(ClientOrder clientOrder, Principal principal) {
+        Integer id = clientOrderService.add(clientOrder, Integer.parseInt(principal.getName()));
         return "redirect:/client-orders/" + id + "/meals";
     }
 

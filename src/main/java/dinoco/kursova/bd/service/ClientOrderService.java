@@ -19,7 +19,7 @@ public class ClientOrderService {
         return clientOrderRepository.findAllByPaymentStatus(Boolean.valueOf(paid));
     }
 
-    public Integer add(ClientOrder clientOrder) {
+    public Integer add(ClientOrder clientOrder, Integer id) {
         clientOrder.setSum(0);
         clientOrder.setWaiter(employeeService.get(1));
         clientOrder.setOrderDate(LocalDateTime.now());

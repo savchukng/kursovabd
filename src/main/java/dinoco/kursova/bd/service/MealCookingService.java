@@ -18,11 +18,11 @@ public class MealCookingService {
     private final EmployeeService employeeService;
     private final CookingProductService cookingProductService;
 
-    public void add(ClientOrderMeal clientOrderMeal) {
+    public void add(ClientOrderMeal clientOrderMeal, Integer employeeId) {
         for (int currentQuantity = clientOrderMeal.getQuantity(); currentQuantity > 0; currentQuantity--) {
             MealCooking mealCooking = mealCookingRepository.save(MealCooking.builder()
                     .clientOrderMeal(clientOrderMeal)
-                    .chef(employeeService.get(1))
+                    .chef(employeeService.get(employeeId))
                     .time(LocalDateTime.now())
                     .build());
             List<MealProduct> mealProducts = clientOrderMeal.getMeal().getMealProducts();
