@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <title>Редагувати продукт</title>
+
+    <style>
+        input[type="text"] {
+            width: 300px;
+            display: inline;
+        }
+        label {
+            width: 170px;
+        }
+        .line {
+            margin: 10px
+        }
+    </style>
+</head>
+
+<body>
+<div style="margin: 5px;">
+    <a class="btn btn-primary" style="margin: 10px;"  th:href="@{/}">На головну</a>
+    <form action="#"
+          style="margin-top: 20px"
+          th:action="@{/products/update}"
+          th:object="${product}"
+          method="post">
+        <input type="hidden" th:field="*{id}">
+        <div class="line">
+            <label for="name">Назва</label>
+            <input type="text" class="form-control" th:field="*{name}" id="name" placeholder="Назва">
+        </div>
+        <div class="line">
+            <label for="description">Опис</label>
+            <input type="text" class="form-control" th:field="*{description}" id="description" placeholder="Опис">
+        </div>
+        <div class="line">
+            <label for="amountTypeId">Одиниці вимірювання</label>
+            <select class="form-control" th:field="${product.amountType}" style="display: inline; width: 300px"  id="amountTypeId">
+                <option th:each="amountType : ${amountTypes}" th:value="${amountType.id}" th:text="${amountType.type}"></option>
+            </select>
+        </div>
+        <input style="margin: 10px;" class="btn btn-success" type="submit" value="Змінити продукт">
+    </form>
+</div>
+</body>
+</html>

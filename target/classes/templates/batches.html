@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <title>Партії</title>
+
+    <style>
+        input[type="text"] {
+            width: 300px;
+            display: inline;
+        }
+        td, th {
+            padding: 5px;
+        }
+        label {
+            width: 140px;
+        }
+        .line {
+            margin: 10px
+        }
+    </style>
+</head>
+
+<body>
+<a class="btn btn-primary" style="margin: 10px;" th:href="@{/}">На головну</a>
+<h2 style="margin: 20px 10px 10px 10px">Партії</h2>
+<table style="margin: 10px">
+    <thead>
+    <tr>
+        <th>Назва продукта</th>
+        <th>Кількість</th>
+        <th>Одиниці вимірювання</th>
+        <th>Термін придатності</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="batch: ${batches}">
+        <td th:text="${batch.supplyOrderProduct.product.name}" />
+        <td th:text="${batch.amount}" />
+        <td th:text="${batch.supplyOrderProduct.product.amountType.type}" />
+        <td th:text="${batch.expirationDate}" />
+    </tr>
+    </tbody>
+</table>
+<h2 style="margin: 20px 10px 10px 10px">Додати партію</h2>
+<form style="margin: 10px" action="#"
+      th:if="${newBatch != null}"
+      th:action="@{/batches/add}"
+      th:object="${newBatch}"
+      method="post">
+    <input type="hidden" name="supplyId" th:value="${supplyId}">
+    <div class="line">
+        <label for="product">Продукт</label>
+        <select style="display: inline; width: 300px" class="form-control" th:field="${newBatch.supplyOrderProduct.id}"  id="product">
+            <option th:each="supplyOrderProduct : ${supplyOrderProducts}" th:value="${supplyOrderProduct.id}" th:text="${supplyOrderProduct.product.name + ' (' + supplyOrderProduct.amount + ' ' + supplyOrderProduct.product.amountType.type + ' залишилося)'}"></option>
+        </select>
+    </div>
+    <div class="line">
+        <label for="amount">Кількість</label>
+        <input class="form-control" type="text" th:field="${newBatch.amount}" id="amount">
+    </div>
+    <div class="line">
+        <label for="expirationDate">Термін придатності</label>
+        <input class="form-control" style="display: inline; width: 300px" type="date" th:field="*{expirationDate}" id="expirationDate">
+    </div>
+    <input class="btn btn-success" style="margin: 10px" type="submit" value="Додати партію">
+</form>
+</body>
+</html>

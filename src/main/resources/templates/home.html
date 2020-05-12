@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Головна сторінка</title>
+
+    <style>
+        a {
+            margin: 30px;
+            width: 200px;
+        }
+    </style>
+</head>
+
+<body>
+<div style="width: 200px; margin: 0 auto">
+    <a class="btn btn-primary" href="/products">Продукти</a><br />
+    <a class="btn btn-primary" href="/meals">Страви</a><br />
+    <a class="btn btn-primary" href="/suppliers">Постачальники</a><br />
+    <a class="btn btn-primary" href="/supply-orders">Замовлення поставки</a><br />
+    <a class="btn btn-primary" href="/restaurants">Ресторани</a><br />
+    <a class="btn btn-primary" href="/client-orders/add">Додати замовлення клієнтів</a><br />
+    <a class="btn btn-primary" href="/client-orders?paid=false">Замовлення клієнтів</a><br />
+    <a class="btn btn-primary" href="/logout">Вийти</a>
+</div>
+</body>
+</html>

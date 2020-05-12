@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Страви</title>
+
+    <style>
+        tr:nth-child(even) {background-color: #f2f2f2;}
+        tr:hover {
+            background-color: #dadada;
+        }
+        th, td {
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+<div style="margin: 20px;">
+    <a class="btn btn-primary" th:href="@{/}">На головну</a>
+    <a th:if="${isAdmin}" class="btn btn-primary" style="margin-left: 10px" th:href="@{/meals/add}">Додати страву</a>
+</div>
+<div style="margin: 20px;">
+    <label for="search">Пошук:</label>
+    <input th:value="${previousSearch}" type="text" id="search">
+    <button class="btn btn-primary" id="searchButton">Шукати</button>
+</div>
+<span th:if="${meals.size() <= 0}">Продукти не знайдено</span>
+<table style="margin: 20px;" th:if="${meals.size() > 0}">
+    <thead>
+    <tr>
+        <th>Назва</th>
+        <th>Група</th>
+        <th>Ціна</th>
+        <th>Розмір порції</th>
+        <th>Одиниці вимірювання</th>
+        <th>Опис</th>
+        <th>Продукти</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="meal: ${meals}">
+        <td th:text="${meal.title}" />
+        <td th:text="${meal.group.name}" />
+        <td th:text="${meal.price}" />
+        <td th:text="${meal.portionSize}" />
+        <td th:text="${meal.amountType.type}" />
+        <td th:text="${meal.description}" />
+        <td>
+            <a data-toggle="collapse" role="button" aria-expanded="false" th:href="${'#' + meal.id}" th:aria-controls="${meal.id}">
+                Показати
+            </a>
+            <div class="collapse" th:id="${meal.id}">
+                <div th:each="mealProduct: ${meal.mealProducts}" th:text="${mealProduct.product.name + ' ' + mealProduct.amount + ' ' + mealProduct.product.amountType.type}" />
+            </div>
+        </td>
+        <td th:if="${isAdmin}"><a th:href="@{/meals/update/{id}(id=${meal.id})}">Редагувати</a></td>
+        <td th:if="${isAdmin}"><a th:href="@{/meals/{id}/delete(id=${meal.id})}">Видалити</a></td>
+    </tr>
+    </tbody>
+</table>
+<script>
+    $("#searchButton").on('click', function(){
+        window.location = "/meals?search=" + $("#search").val();
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        input[type="text"] {
+            width: 300px;
+            display: inline;
+        }
+        label {
+            width: 140px;
+        }
+        .line {
+            margin: 10px
+        }
+    </style>
+
+    <title>Замовити поставки</title>
+</head>
+
+<body>
+<a class="btn btn-primary" style="margin: 10px" th:href="@{/}">На головну</a>
+<form action="#"
+      th:action="@{/supply-orders/add}"
+      th:object="${supplyOrder}"
+      method="post">
+    <div class="line">
+        <label for="restaurant">Ресторан</label>
+        <select style="display: inline; width: 200px" class="form-control" th:field="*{restaurant}"  id="restaurant">
+            <option th:each="restaurant : ${restaurants}" th:value="${restaurant.id}" th:text="${restaurant.address}"></option>
+        </select>
+    </div>
+    <div class="line">
+        <label for="supplier">Постачальник</label>
+        <select style="display: inline; width: 200px" class="form-control" th:field="*{supplier}"  id="supplier">
+            <option th:each="supplier : ${suppliers}" th:value="${supplier.id}" th:text="${supplier.name}"></option>
+        </select>
+    </div>
+    <input class="btn btn-primary" style="margin: 10px" type="submit" value="Додати продукти">
+</form>
+</body>
+</html>

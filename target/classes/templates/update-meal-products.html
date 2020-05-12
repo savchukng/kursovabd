@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <title>Редагувати продукти страви</title>
+
+    <style>
+        input[type="text"] {
+            width: 100px;
+            display: inline;
+        }
+        td {
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+<a style="margin: 20px;" class="btn btn-primary" th:href="@{/}">На головну</a>
+<h3 style="margin: 25px 10px" th:text="${newMealProduct.meal.title}"></h3>
+<h4 style="margin: 10px">Редагувати продукти</h4>
+<table>
+    <tbody>
+    <form action="#"
+          th:action="@{/meals/{id}/update-products(id=${id})}"
+          method="post"
+          th:each="mealProduct: ${mealProducts}">
+        <input type="hidden" name="id" th:value="${mealProduct.id}">
+        <tr>
+            <td th:text="${mealProduct.product.name}" />
+            <td><input class="form-control" type="text" name="amount" id="amount" th:value="${mealProduct.amount}" placeholder="Кількість"></td>
+            <td style="padding: 0px;" th:text="${mealProduct.product.amountType.type}" />
+            <td><input class="btn btn-primary" type="submit" value="Зберігти"></td>
+            <td><a class="btn btn-primary" th:href="@{/meals/{mealId}/delete-product/{id}(mealId=${id}, id=${mealProduct.id})}">Видалити</a></td>
+        </tr>
+    </form>
+    </tbody>
+</table>
+<h4 style="margin: 10px;">Додати продукт</h4>
+<form action="#"
+      style="margin: 10px;"
+      th:action="@{/meals/add-product}"
+      th:object="${newMealProduct}"
+      method="post">
+    <input type="hidden" th:field="${newMealProduct.meal.id}">
+    <label for="product">Продукт</label>
+    <select style="display: inline; width: 200px" class="form-control" th:field="${newMealProduct.product}"  id="product">
+        <option th:each="product : ${availableProducts}" th:value="${product.id}" th:text="${product.name + ' (' + product.amountType.type + ')'}"></option>
+    </select>
+    <label for="newProductAmount">Кількість</label>
+    <input class="form-control" type="text" th:field="${newMealProduct.amount}" id="newProductAmount">
+    <input class="btn btn-primary" type="submit" value="Додати">
+</form>
+</body>
+</html>

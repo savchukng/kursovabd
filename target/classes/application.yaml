@@ -1,0 +1,11 @@
+spring:
+  thymeleaf:
+    cache: true
+  datasource:
+    url: jdbc:sqlserver://localhost;databaseName=Restaurant
+    username: Dinoco
+    password: kursovapass
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: dinoco.kursova.bd.config.SQLServerNamingStrategy

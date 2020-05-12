@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        input[type="text"] {
+            width: 300px;
+            display: inline;
+        }
+        label {
+            width: 170px;
+        }
+        .line {
+            margin: 10px
+        }
+    </style>
+
+    <title>Списати продукт</title>
+</head>
+
+<body>
+<a class="btn btn-primary" style="margin: 20px" th:href="@{/}">На головну</a>
+<form style="margin: 10px" action="#"
+      th:action="@{/restaurant-products/discard}"
+      th:object="${productDiscard}"
+      method="post">
+    <input type="hidden" th:field="*{restaurantProduct.id}">
+    <div class="line">
+        <label for="amount">Кількість</label>
+        <input type="text" class="form-control" th:field="*{amount}" id="amount" placeholder="Кількість">
+    </div>
+    <div class="line">
+        <label for="reason">Причина списання</label>
+        <select style="display: inline; width: 300px" class="form-control" th:field="*{discardReason}"  id="reason">
+            <option th:each="discardReason : ${discardReasons}" th:value="${discardReason.id}" th:text="${discardReason.reason}"></option>
+        </select>
+    </div>
+    <input style="margin: 10px" class="btn btn-success" type="submit" value="Списати продукт">
+</form>
+</body>
+</html>

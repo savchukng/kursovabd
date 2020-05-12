@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <title>Додати страву</title>
+
+    <style>
+        input[type="text"] {
+            width: 300px;
+            display: inline;
+        }
+        label {
+            width: 170px;
+        }
+        .line {
+            margin: 10px
+        }
+    </style>
+</head>
+
+<body>
+<a class="btn btn-primary" style="margin: 20px" th:href="@{/}">На головну</a>
+<form style="margin: 10px" action="#"
+      th:action="@{/meals/add}"
+      th:object="${meal}"
+      method="post">
+    <div class="line">
+        <label for="title">Назва</label>
+        <input class="form-control" type="text" th:field="*{title}" id="title" placeholder="Назва">
+    </div>
+    <div class="line">
+        <label for="group">Група</label>
+        <select style="display: inline; width: 300px" class="form-control" th:field="${meal.group}"  id="group">
+            <option th:each="group : ${groups}" th:value="${group.id}" th:text="${group.name}"></option>
+        </select>
+    </div>
+    <div class="line">
+        <label for="price">Ціна</label>
+        <input class="form-control" type="text" th:field="*{price}" id="price" placeholder="Ціна">
+    </div>
+    <div class="line">
+        <label for="portionSize">Розмір порції</label>
+        <input class="form-control" type="text" th:field="*{portionSize}" id="portionSize" placeholder="Розмір порції">
+        <select style="display: inline; width: 100px" class="form-control" th:field="${meal.amountType}"  id="amountType">
+            <option th:each="amountType : ${amountTypes}" th:value="${amountType.id}" th:text="${amountType.type}"></option>
+        </select>
+    </div>
+    <div class="line">
+        <label for="description">Опис</label>
+        <input class="form-control" type="text" th:field="*{description}" id="description" placeholder="Опис">
+    </div>
+    <input class="btn btn-success" style="margin: 10px" type="submit" value="Додати продукти">
+</form>
+</body>
+</html>

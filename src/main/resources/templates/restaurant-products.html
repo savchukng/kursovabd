@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        tr:nth-child(even) {background-color: #f2f2f2;}
+        tr:hover {
+            background-color: #dadada;
+        }
+        th, td {
+            padding: 10px;
+        }
+    </style>
+
+    <title>Продукти в ресторані</title>
+</head>
+
+<body>
+<a class="btn btn-primary" style="margin: 10px" th:href="@{/}">На головну</a>
+<table>
+    <thead>
+    <tr>
+        <th>Назва</th>
+        <th>Кількість</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="productAmount: ${productsAmounts}">
+        <td th:text="${productAmount.key.name}" />
+        <td th:text="${productAmount.value}" />
+        <td><a th:href="@{/restaurants/{restaurantId}/products/{id}/batches(id=${productAmount.key.id},restaurantId=${restaurantId})}">Переглянути партії</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

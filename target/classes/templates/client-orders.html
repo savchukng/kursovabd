@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        tr:nth-child(even) {background-color: #f2f2f2;}
+        tr:hover {
+            background-color: #dadada;
+        }
+        th, td {
+            padding: 10px;
+        }
+    </style>
+
+    <title>Замовлення клієнітв</title>
+</head>
+
+<body>
+<a class="btn btn-primary" style="margin: 10px" th:href="@{/}">На головну</a>
+<div style="margin: 10px">
+    <a th:href="@{/client-orders?paid=false}">Поточні замовлення</a>
+    <a th:href="@{/client-orders?paid=true}">Минулі замовлення</a>
+</div>
+<table style="margin: 10px">
+    <thead>
+    <tr>
+        <th>Номер стола</th>
+        <th>Час замовлення</th>
+        <th>Офіціант</th>
+        <th>Сума</th>
+        <th>Статус оплати</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="clientOrder: ${clientOrders}">
+        <td th:text="${clientOrder.table.tableNumber}" />
+        <td th:text="${clientOrder.orderDate}" />
+        <td th:text="${clientOrder.waiter.firstName + ' ' + clientOrder.waiter.lastName}" />
+        <td th:text="${clientOrder.sum}" />
+        <td th:text="${clientOrder.paymentStatus ? 'Оплачено' : 'Не оплачено'}" />
+        <td>
+            <a th:href="@{/client-orders/{id}/meals(id=${clientOrder.id})}">Страви</a>
+        </td>
+        <td>
+            <a th:if="${!clientOrder.paymentStatus}" th:href="@{/client-orders/{id}/pay(id=${clientOrder.id})}">Оплатити</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

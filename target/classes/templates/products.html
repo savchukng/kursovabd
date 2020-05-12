@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Продукти</title>
+    <style>
+        tr:nth-child(even) {background-color: #f2f2f2;}
+        tr:hover {
+            background-color: #dadada;
+        }
+    </style>
+</head>
+
+<body>
+<div style="margin: 10px">
+    <div>
+        <a class="btn btn-primary" style="margin: 5px" th:href="@{/}">На головну</a>
+        <a th:if="${isAdmin}" class="btn btn-primary" style="margin: 5px" th:href="@{/products/add}">Додати продукт</a>
+    </div>
+    <div style="margin: 5px">
+        <div style="margin-top: 10px">
+            <label for="search">Пошук:</label>
+            <input th:value="${previousSearch}" type="text" id="search">
+            <button class="btn btn-primary" style="margin-left: 5px" id="searchButton">Шукати</button>
+        </div>
+        <div style="margin-top: 20px" th:if="${products.size() <= 0}">Продукти не знайдені</div>
+        <table style="margin-top: 20px" th:if="${products.size() > 0}">
+            <thead>
+                <tr>
+                    <th style="padding: 10px;">Назва</th>
+                    <th style="padding: 10px;">Опис</th>
+                    <th style="padding: 10px;">Одиниці вимірювання</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="product: ${products}">
+                    <td style="padding: 10px;" th:text="${product.name}" />
+                    <td style="padding: 10px;" th:text="${product.description}" />
+                    <td style="padding: 10px;" th:text="${product.amountType.type}" />
+                    <td th:if="${isAdmin}" style="padding: 10px;"><a th:href="@{/products/update/{id}(id=${product.id})}">Редагувати</a></td>
+                    <td th:if="${isAdmin}" style="padding: 10px;"><a th:href="@{/products/delete/{id}(id=${product.id})}">Видалити</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    $("#searchButton").on('click', function(){
+        window.location = "/products?search=" + $("#search").val();
+    });
+</script>
+</body>
+</html>

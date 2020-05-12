@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <title>Додати страви у замовлення</title>
+
+    <style>
+        td, th {
+            padding: 5px;
+        }
+        input[type="text"] {
+            width: 300px;
+            display: inline;
+        }
+        label {
+            width: 170px;
+        }
+        .line {
+            margin: 10px
+        }
+    </style>
+</head>
+</head>
+
+<body>
+<a class="btn btn-primary" style="margin: 10px" th:href="@{/}">На головну</a>
+<h2 style="margin: 10px">Страви замовлення</h2>
+<table style="margin: 10px">
+    <tr>
+        <th>Назва страви</th>
+        <th>Кількість</th>
+        <th>Опис</th>
+        <th>Статус</th>
+        <th>Ціна за одиницю</th>
+        <th>Загальна ціна</th>
+    </tr>
+    <tbody>
+    <tr th:each="clientOrderMeal: ${clientOrderMeals}">
+        <td th:text="${clientOrderMeal.meal.title}" />
+        <td th:text="${clientOrderMeal.quantity}" />
+        <td th:text="${clientOrderMeal.description}" />
+        <td th:text="${clientOrderMeal.status.name}" />
+        <td th:text="${clientOrderMeal.meal.price}" />
+        <td th:text="${clientOrderMeal.meal.price * clientOrderMeal.quantity}" />
+        <td>
+            <a th:if="${clientOrderMeal.status.id == 1}" th:href="@{/client-orders/{clientOrderId}/delete-meal/{id}(clientOrderId=${clientOrder.id},id=${clientOrderMeal.id})}">Видалити</a>
+            <a th:if="${clientOrderMeal.status.id == 1}" th:href="@{/client-order-meals/{id}/cook(id=${clientOrderMeal.id})}">Готувати</a>
+            <a th:if="${clientOrderMeal.status.id == 2}" th:href="@{/client-order-meals/{id}/ready(id=${clientOrderMeal.id})}">Готово</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<h4 style="margin: 10px" th:text="${'Сума замовлення: ' + clientOrder.sum}"></h4>
+<h2 style="margin: 20px 10px 10px 10px">Додати страву</h2>
+<form action="#"
+      th:if="${!clientOrder.paymentStatus}"
+      th:action="@{/client-orders/add-meal}"
+      th:object="${newClientOrderMeal}"
+      method="post">
+    <input type="hidden" th:field="${newClientOrderMeal.clientOrder.id}">
+    <div class="line">
+        <label for="product">Страва</label>
+        <select style="display: inline; width: 300px" class="form-control" th:field="*{meal}"  id="product">
+            <option th:each="meal : ${meals}" th:value="${meal.id}" th:text="${meal.title + ' (' + meal.price + ')'}"></option>
+        </select>
+    </div>
+    <div class="line">
+        <label for="amount">Кількість</label>
+        <input class="form-control" type="text" th:field="*{quantity}" id="amount">
+    </div>
+    <div class="line">
+        <label for="description">Опис</label>
+        <input type="text" th:field="*{description}" class="form-control" id="description">
+    </div>
+    <input style="margin: 10px" type="submit" class="btn btn-primary" value="Додати страву">
+</form>
+<a style="margin: 20px 10px 10px 10px" class="btn btn-success" th:href="@{/}">Готово</a>
+</body>
+</html>

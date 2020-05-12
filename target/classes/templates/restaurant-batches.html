@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        tr:nth-child(even) {background-color: #f2f2f2;}
+        tr:hover {
+            background-color: #dadada;
+        }
+        th, td {
+            padding: 10px;
+        }
+    </style>
+
+    <title>Партії продукту в ресторані</title>
+</head>
+
+<body>
+<a class="btn btn-primary" style="margin: 10px" th:href="@{/}">На головну</a>
+<h3 style="margin: 10px" th:text="${productName}" />
+<table>
+    <thead>
+    <tr>
+        <th>Термін придатності</th>
+        <th>Кількість</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="restaurantProduct: ${restaurantProducts}">
+        <td th:text="${restaurantProduct.batch.expirationDate}" />
+        <td th:text="${restaurantProduct.amount}" />
+        <td><a th:href="@{/restaurant-products/{id}/discard(id=${restaurantProduct.id})}">Списати</a></td>
+        <td>
+            <a th:if="${restaurantProduct.active == false}" th:href="@{/restaurant-products/{id}/make-active(id=${restaurantProduct.id})}">Зробити активною</a>
+            <span th:if="${restaurantProduct.active == true}">Активна партія</span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

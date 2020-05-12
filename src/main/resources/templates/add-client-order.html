@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <title>Створити замовлення клієнта</title>
+</head>
+
+<body>
+<a class="btn btn-primary" style="margin: 10px" th:href="@{/}">На головну</a>
+<form style="margin: 10px" action="#"
+      th:action="@{/client-orders/add}"
+      th:object="${newClientOrder}"
+      method="post">
+    <label for="table">Стіл</label>
+    <select style="display: inline; width: 70px" class="form-control" th:field="*{table}"  id="table">
+        <option th:each="table : ${tables}" th:value="${table.id}" th:text="${table.tableNumber}"></option>
+    </select>
+    <input type="submit" class="btn btn-primary" value="Додати страви">
+</form>
+</body>
+</html>

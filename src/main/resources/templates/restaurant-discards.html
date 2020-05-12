@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        tr:nth-child(even) {background-color: #f2f2f2;}
+        tr:hover {
+            background-color: #dadada;
+        }
+        th, td {
+            padding: 10px;
+        }
+    </style>
+
+    <title>Списані продукти</title>
+</head>
+
+<body>
+<a class="btn btn-primary" style="margin: 10px" th:href="@{/}">На головну</a>
+<table>
+    <thead>
+    <tr>
+        <th>Продукт</th>
+        <th>Партія</th>
+        <th>Кількість</th>
+        <th>Дата списання</th>
+        <th>Причина</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="productDiscard: ${productDiscards}">
+        <td th:text="${productDiscard.restaurantProduct.batch.supplyOrderProduct.product.name}" />
+        <td th:text="${productDiscard.restaurantProduct.batch.expirationDate}" />
+        <td th:text="${productDiscard.amount}" />
+        <td th:text="${productDiscard.discardDate}" />
+        <td th:text="${productDiscard.discardReason.reason}" />
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

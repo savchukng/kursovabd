@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <style>
+        .main-table tr:nth-child(even) {background-color: #f2f2f2;}
+        .main-table tr:hover {
+            background-color: #dadada;
+        }
+        .main-table th, .main-table td {
+            padding: 15px;
+        }
+        .second-table tr:nth-child(even) {background-color: inherit;}
+        .second-table tr:hover {
+            background-color: inherit;
+        }
+        .second-table th, .second-table td {
+            padding: 5px 5px 5px 0px;
+        }
+    </style>
+
+    <title>Замовлення поставки</title>
+</head>
+
+<body>
+<div style="margin: 20px;">
+    <a class="btn btn-primary" th:href="@{/}">На головну</a>
+    <a th:if="${isNotWaiter}" class="btn btn-primary" th:href="@{/supply-orders/add}">Замовити поставку</a>
+</div>
+<table class="main-table" style="margin: 20px">
+    <thead>
+    <tr>
+        <th>Дата створення</th>
+        <th>Ресторан</th>
+        <th>Працівник</th>
+        <th>Постачальник</th>
+        <th>Продукти</th>
+        <th>Ціна</th>
+        <th>Дата поставки</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="supplyOrder: ${supplyOrders}">
+        <td th:text="${#temporals.format(supplyOrder.creationTime, 'dd.MM.yyyy HH:mm')}" />
+        <td th:text="${supplyOrder.restaurant.address}" />
+        <td th:text="${supplyOrder.employee.firstName + ' ' + supplyOrder.employee.lastName}" />
+        <td th:text="${supplyOrder.supplier.name}" />
+        <td>
+            <a data-toggle="collapse" role="button" aria-expanded="false" th:href="${'#' + supplyOrder.id}" th:aria-controls="${supplyOrder.id}">Показати</a>
+            <table th:id="${supplyOrder.id}" class="collapse second-table">
+                <tbody>
+                    <tr th:each="supplyOrderProduct: ${supplyOrder.supplyOrderProducts}" th:with="fullPrice=${supplyOrderProduct.amount * supplyOrderProduct.price}">
+                        <td th:text="${supplyOrderProduct.product.name}" />
+                        <td th:text="${supplyOrderProduct.amount}" />
+                        <td th:text="${supplyOrderProduct.product.amountType.type}" />
+                        <td th:text="${supplyOrderProduct.price}" />
+                        <td th:text="${fullPrice}" />
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td th:text="${supplyOrder.orderPrice}" />
+        <td th:text="${supplyOrder.supply} ? ${#temporals.format(supplyOrder.supply.deliveryTime, 'dd.MM.yyyy HH:mm')} : 'Не доставлено'">-</td>
+        <td th:if="${isNotWaiter}"><a th:if="${supplyOrder.supply == null}" th:href="@{/supply-orders/{id}/delivered(id=${supplyOrder.id})}">Доставлено</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

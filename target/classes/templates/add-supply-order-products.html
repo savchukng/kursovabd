@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <title>Додати продукти до замовлення поставки</title>
+
+    <style>
+        input[type="text"] {
+            width: 100px;
+            display: inline;
+        }
+        td, th {
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+<a class="btn btn-primary" style="margin: 10px" th:href="@{/}">На головну</a>
+<table style="margin: 10px">
+    <thead>
+    <tr>
+        <th>Назва</th>
+        <th>Кількість</th>
+        <th>Одиниці вимірювання</th>
+        <th>Ціна за одиницю</th>
+        <th>Загальна ціна</th>
+    </tr>
+    </thead>
+    <tbody>
+    <form action="#"
+          th:action="@{/supply-orders/{id}/add-products(id=${id})}"
+          method="post"
+          th:each="supplyOrderProduct: ${supplyOrderProducts}">
+        <input type="hidden" name="id" th:value="${supplyOrderProduct.id}">
+        <tr th:with="fullPrice=${supplyOrderProduct.amount * supplyOrderProduct.price}">
+            <td th:text="${supplyOrderProduct.product.name}" />
+            <td><input class="form-control" type="text" name="amount" id="amount" th:value="${supplyOrderProduct.amount}" placeholder="Кількість"></td>
+            <td th:text="${supplyOrderProduct.product.amountType.type}" />
+            <td th:text="${supplyOrderProduct.price}" />
+            <td th:text="${fullPrice}" />
+            <td><input class="btn btn-primary" type="submit" value="Зберігти"></td>
+            <td><a class="btn btn-primary" th:href="@{/supply-orders/remove-product/{id}(id=${supplyOrderProduct.id})}">Видалити</a></td>
+        </tr>
+    </form>
+    </tbody>
+</table>
+<h4 style="margin: 10px" th:text="${'Сума замовлення: ' + orderPrice}"></h4>
+<form style="margin: 10px" action="#"
+      th:action="@{/supply-orders/add-product}"
+      th:object="${newSupplyOrderProduct}"
+      method="post">
+    <input type="hidden" th:field="${newSupplyOrderProduct.supplyOrder.id}">
+    <label for="product">Продукт</label>
+    <select style="display: inline; width: 200px" class="form-control" th:name="supplierProductId"  id="product">
+        <option th:each="supplierProduct : ${availableProducts}" th:value="${supplierProduct.id}" th:text="${supplierProduct.product.name + ' (' + supplierProduct.price + ', ' + supplierProduct.product.amountType.type + ')'}"></option>
+    </select>
+    <label for="newProductAmount">Кількість</label>
+    <input class="form-control" type="text" th:field="${newSupplyOrderProduct.amount}" id="newProductAmount">
+    <input class="btn btn-primary" type="submit" value="Додати продукт">
+</form>
+<a class="btn btn-success" style="margin: 10px" th:href="@{/supply-orders}">Готово</a>
+</body>
+</html>
