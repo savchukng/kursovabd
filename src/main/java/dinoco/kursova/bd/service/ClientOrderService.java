@@ -21,7 +21,7 @@ public class ClientOrderService {
 
     public Integer add(ClientOrder clientOrder, Integer id) {
         clientOrder.setSum(0);
-        clientOrder.setWaiter(employeeService.get(1));
+        clientOrder.setWaiter(employeeService.get(id));
         clientOrder.setOrderDate(LocalDateTime.now());
         clientOrder.setPaymentStatus(false);
         return clientOrderRepository.save(clientOrder).getId();
